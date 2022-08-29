@@ -1,0 +1,12 @@
+sudo: required              # sudo access is mostly requried
+services: 
+    - docker                # installs a copy of docker ready to go.
+
+before_install:
+    - docker build -f Dockerfile -t prashambhuta/my-react-app . 
+    # runs before deploying, or final processes.
+    # builds a container from a Dockerfile
+
+script:                     # commands to run tests/deployment.
+    - docker run -e CI=true prashambhuta/my-react-app npm run test
+    # runs docker scripts inside the container.
