@@ -3,10 +3,30 @@ services:
     - docker                # installs a copy of docker ready to go.
 
 before_install:
-    - docker build -f Dockerfile.dev -t prashambhuta/my-react-app . 
+    - docker build -f Dockerfile -t prashambhuta/my-react-app . 
     # runs before deploying, or final processes.
     # builds a container from a Dockerfile
 
 script:                     # commands to run tests/deployment.
     - docker run -e CI=true prashambhuta/my-react-app npm run test
     # runs docker scripts inside the container.
+
+deploy:                     # take stuff and deploy our project
+    provider: elasticbeanstalk
+    # cloud service provider
+    region: "eu-central-1"
+    # region of the ElasticBeanTalk instance.
+    app: "my-react-docker-app"
+    # name of the app  <app_name> on the the cloud platform
+    env: "Myreactdockerapp-env"
+    # name of environment that hosts the project.
+    bucket_name: "elasticbeanstalk-eu-central-1-129796252752"
+    # S3 bucket. (Give Elastic BeansTalk access the files from S3)
+    bucket_path: "my-react-docker-app"
+    # path for the project. <app_name> by default.
+    on:
+    # auto deploy on pushes to what place.
+        branch: master 
+        # master by default
+    access_key_id: $aws-access-id
+    secret_access_key: "$aws-access-key"
