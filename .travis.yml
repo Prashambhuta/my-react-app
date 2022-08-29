@@ -3,7 +3,7 @@ services:
     - docker                # installs a copy of docker ready to go.
 
 before_install:
-    - docker build -f Dockerfile -t prashambhuta/my-react-app . 
+    - docker build -f Dockerfile.dev -t prashambhuta/my-react-app . 
     # runs before deploying, or final processes.
     # builds a container from a Dockerfile
 
@@ -28,5 +28,5 @@ deploy:                     # take stuff and deploy our project
     # auto deploy on pushes to what place.
         branch: master 
         # master by default
-    access_key_id: $aws-access-id
-    secret_access_key: "$aws-access-key"
+    access_key_id: $ACCESS_KEY_ID
+    secret_access_key: $SECRET_ACCESS_KEY
